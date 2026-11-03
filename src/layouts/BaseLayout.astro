@@ -1,0 +1,60 @@
+---
+import '../styles/global.css';
+import { institute } from '../data/institute';
+import { isFixturePreview } from '../lib/news';
+interface Props { title?: string; description?: string; }
+const { title, description = institute.summary } = Astro.props;
+const nav = [ ['首页', '/'], ['研究方向', '/research/'], ['走进 iSOC', '/about/'], ['组织架构', '/organization/'], ['法人登记信息', '/registration/'], ['新闻动态', '/news/'] ];
+const active = (href: string) => href === '/' ? Astro.url.pathname === '/' : Astro.url.pathname.startsWith(href);
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0b2949" />
+    <link rel="icon" type="image/jpeg" href="/brand/isoc-logo.jpeg" />
+    <title>{title ? `${title} | ${institute.name}` : `${institute.name}（iSOC）`}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳至正文</a>
+    {isFixturePreview && <aside class="preview-banner">本地预览数据 · 仅用于交互验收 <a href="/preview/0/">0 条</a><a href="/preview/1/">1 条</a><a href="/preview/3/">3 条</a><a href="/preview/4/">4 条</a></aside>}
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label={`${institute.name}首页`}>
+          <img src="/brand/isoc-logo.jpeg" alt="iSOC" width="290" height="171" />
+          <span class="brand-text"><strong>{institute.name}</strong><span lang="en">{institute.englishName}</span></span>
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="打开导航菜单"><span class="menu-icon" aria-hidden="true"></span><span>菜单</span></button>
+        <nav id="primary-nav" class="primary-nav" aria-label="主导航">
+          {nav.map(([name, href]) => <a href={href} aria-current={active(href) ? 'page' : undefined}>{name}</a>)}
+        </nav>
+      </div>
+    </header>
+    <main id="main-content" tabindex="-1"><slot /></main>
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div><p class="footer-name">{institute.name}</p><p class="footer-english" lang="en">{institute.englishName}</p></div>
+        <a href="/about/#contact">联系我们 <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="container footer-bottom"><span>© {new Date().getFullYear()} iSOC</span><span>开放计算 · 开源共建</span></div>
+    </footer>
+    <script>
+      const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+      const nav = document.querySelector<HTMLElement>('#primary-nav');
+      const setOpen = (open: boolean) => {
+        toggle?.setAttribute('aria-expanded', String(open));
+        toggle?.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单');
+        nav?.classList.toggle('is-open', open);
+      };
+      toggle?.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') { setOpen(false); toggle.focus(); }
+      });
+      document.addEventListener('click', e => { if (e.target instanceof Node && !document.querySelector('.site-header')?.contains(e.target)) setOpen(false); });
+      nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setOpen(false)));
+      matchMedia('(min-width: 1180px)').addEventListener('change', () => setOpen(false));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+---
+import { articleHref, type NewsArticle } from '../lib/news-model';
+import Arrow from './Arrow.astro';
+interface Props { articles: NewsArticle[]; }
+const { articles } = Astro.props;
+---
+{articles.length === 0 ? <p class="news-empty">暂无已发布内容</p> : <ol class="news-list">
+  {articles.map((article, index) => <li><a href={articleHref(article)}><span class="news-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><span class="news-title">{article.title}</span><time datetime={article.publishedAt}>{article.publishedAt}</time><Arrow /></a></li>)}
+</ol>}

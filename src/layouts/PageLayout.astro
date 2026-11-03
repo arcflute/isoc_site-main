@@ -1,0 +1,15 @@
+---
+import BaseLayout from './BaseLayout.astro';
+interface Props { title: string; english: string; description?: string; parent?: { title: string; href: string }; }
+const { title, english, description, parent } = Astro.props;
+---
+<BaseLayout title={title} description={description}>
+  <div class="page-heading">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="面包屑"><a href="/">首页</a><span aria-hidden="true">/</span>{parent && <><a href={parent.href}>{parent.title}</a><span aria-hidden="true">/</span></>}<span aria-current="page">{title}</span></nav>
+      <p class="eyebrow">{english}</p><h1>{title}</h1>
+      {description && <p class="page-description">{description}</p>}
+    </div>
+  </div>
+  <div class="container page-body"><slot /></div>
+</BaseLayout>

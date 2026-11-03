@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SystemVisual from './SystemVisual.astro';
+import HomeNews from './HomeNews.astro';
+import Arrow from './Arrow.astro';
+import { institute } from '../data/institute';
+import type { NewsArticle } from '../lib/news-model';
+interface Props { articles: NewsArticle[]; }
+const { articles } = Astro.props;
+---
+<BaseLayout>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero-inner">
+      <div class="hero-copy"><p class="eyebrow">RISC-V <span>/</span> AI SYSTEMS</p><h1 id="hero-title">面向 RISC-V 与 AI 的<br />开放计算系统研究</h1><p class="hero-subtitle">{institute.name}</p><span class="orange-rule" aria-hidden="true"></span></div>
+      <SystemVisual />
+    </div>
+  </section>
+  <section class="home-about container" aria-labelledby="about-heading">
+    <div class="about-label"><p class="eyebrow">ABOUT iSOC</p><h2 id="about-heading">关于我们</h2><a class="text-link" href="/about/">走进 iSOC <Arrow /></a></div>
+    <p class="about-summary">{institute.summary}</p>
+  </section>
+  <HomeNews articles={articles} />
+</BaseLayout>

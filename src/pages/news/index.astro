@@ -1,0 +1,13 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import NewsList from '../../components/NewsList.astro';
+import NewsTabs from '../../components/NewsTabs.astro';
+import Arrow from '../../components/Arrow.astro';
+import { getNews } from '../../lib/news';
+import { categories, categoryHref, latestNews } from '../../lib/news-model';
+const articles = await getNews();
+---
+<PageLayout title="新闻动态" english="NEWSROOM" description="关注研究院动态、科研进展与人工智能技术观察。">
+  <NewsTabs />
+  {categories.map(c => <section class="news-index-section" aria-labelledby={`section-${c.slug}`}><div class="section-title-row"><h2 id={`section-${c.slug}`}>{c.name}</h2><a class="text-link" href={categoryHref(c.slug)}>本栏更多 <Arrow /></a></div><NewsList articles={latestNews(articles, c.slug)} /></section>)}
+</PageLayout>

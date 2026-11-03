@@ -1,0 +1,6 @@
+---
+import HomePage from '../components/HomePage.astro';
+import { getNews } from '../lib/news';
+const articles = await getNews();
+---
+<HomePage articles={articles} />

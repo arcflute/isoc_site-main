@@ -1,0 +1,30 @@
+{
+  "name": "isoc-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.34.9",
+  "engines": { "node": ">=22.12.0" },
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1 --port 4321",
+    "dev:fixtures": "node scripts/preview.mjs",
+    "check": "astro check",
+    "build": "astro build && tsx scripts/audit-build.ts",
+    "preview": "astro preview --host 127.0.0.1 --port 4321",
+    "test": "tsx --test tests/news.test.ts",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "astro": "6.4.8",
+    "@tailwindcss/vite": "4.3.4",
+    "tailwindcss": "4.3.4"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^22.15.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  },
+  "pnpm": { "onlyBuiltDependencies": ["esbuild", "sharp"] }
+}

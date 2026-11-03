@@ -1,0 +1,18 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import { categories, categoryHref, type NewsArticle } from '../../../lib/news-model';
+import { getNews } from '../../../lib/news';
+export async function getStaticPaths() {
+  const articles = await getNews();
+  return articles.map(article => ({ params: { category: article.category, slug: article.category === 'ai-monthly' ? article.issue : article.slug }, props: { article } }));
+}
+interface Props { article: NewsArticle; }
+const { article } = Astro.props;
+const category = categories.find(c => c.slug === article.category)!;
+---
+<PageLayout title={article.title} english={article.issue ? `AI MONTHLY / ${article.issue}` : 'NEWSROOM'} parent={{ title: category.name, href: categoryHref(category.slug) }}>
+  <article class="prose mx-auto"><div class="article-meta"><time datetime={article.publishedAt}>{article.publishedAt}</time><span>来源：{article.source}</span>{article.issue && <span>期号：{article.issue}</span>}</div><p class="article-summary">{article.summary}</p>{article.body.map(paragraph => <p>{paragraph}</p>)}
+    {article.attachments?.length && <section class="mt-8"><h2>相关附件</h2><ul>{article.attachments.map(file => <li><a class="text-link" href={file.path} download>{file.title}（PDF）</a></li>)}</ul></section>}
+    <div class="article-back"><a class="text-link" href={categoryHref(category.slug)}>← 返回{category.name}</a></div>
+  </article>
+</PageLayout>

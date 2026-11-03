@@ -1,0 +1,12 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { approvedLeaders } from '../data/institute';
+---
+<PageLayout title="组织架构" english="GOVERNANCE" description="研究院实行理事会领导下的院长负责制。">
+  <div class="prose">
+    <section><h2>治理关系</h2><p>研究院以理事会为核心开展法人治理，设理事会、监事会，实行理事会领导下的院长负责制。</p>
+      <div class="governance" role="img" aria-label="理事会领导院长，监事会履行监督职责。"><div class="governance-node"><strong>理事会</strong><p>法人治理</p></div><div class="governance-line">监督<span aria-hidden="true">←</span></div><div class="governance-node"><strong>监事会</strong><p>监督机制</p></div><div class="governance-down" aria-hidden="true">↓</div><div class="governance-node governance-director"><strong>院长</strong><p>在理事会领导下负责</p></div></div>
+    </section>
+    <section><h2>负责人信息</h2>{approvedLeaders.length ? <ul>{approvedLeaders.map(leader => <li>{leader.name} · {leader.position}{leader.term && ` · ${leader.term}`}</li>)}</ul> : <p class="note">现任负责人姓名、机构内职务及任期信息，将在院方核定后公布。</p>}</section>
+  </div>
+</PageLayout>

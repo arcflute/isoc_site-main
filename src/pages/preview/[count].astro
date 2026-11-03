@@ -1,0 +1,12 @@
+---
+import HomePage from '../../components/HomePage.astro';
+import { getNews, isFixturePreview } from '../../lib/news';
+import { categories, categoryNews } from '../../lib/news-model';
+export function getStaticPaths() {
+  return isFixturePreview ? [0, 1, 3, 4].map(count => ({ params: { count: String(count) }, props: { count } })) : [];
+}
+const { count } = Astro.props;
+const all = await getNews();
+const articles = categories.flatMap(c => categoryNews(all, c.slug).slice(0, count));
+---
+<HomePage articles={articles} />

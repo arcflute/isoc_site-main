@@ -1,0 +1,15 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import NewsTabs from '../../../components/NewsTabs.astro';
+import NewsList from '../../../components/NewsList.astro';
+import { categories, categoryNews } from '../../../lib/news-model';
+import { getNews } from '../../../lib/news';
+export function getStaticPaths() { return categories.map(category => ({ params: { category: category.slug }, props: { category } })); }
+const { category } = Astro.props;
+const articles = categoryNews(await getNews(), category.slug);
+const years = [...new Set(articles.map(a => a.issue?.slice(0, 4)))].filter((y): y is string => Boolean(y)).sort().reverse();
+---
+<PageLayout title={category.name} english={category.slug === 'ai-monthly' ? 'AI MONTHLY' : 'NEWSROOM'} description={category.description} parent={{ title: '新闻动态', href: '/news/' }}>
+  <NewsTabs current={category.slug} />
+  {category.slug === 'ai-monthly' && articles.length ? <div class="monthly-archive">{years.map(year => <section class="archive-section" aria-labelledby={`year-${year}`}><h2 id={`year-${year}`}>{year} 年</h2><NewsList articles={articles.filter(a => a.issue?.startsWith(year))} /></section>)}</div> : <NewsList articles={articles} />}
+</PageLayout>

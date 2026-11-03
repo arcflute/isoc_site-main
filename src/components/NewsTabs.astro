@@ -1,0 +1,6 @@
+---
+import { categories, categoryHref, type Category } from '../lib/news-model';
+interface Props { current?: Category; }
+const { current } = Astro.props;
+---
+<nav class="category-links" aria-label="新闻分类">{categories.map(c => <a href={categoryHref(c.slug)} aria-current={current === c.slug ? 'page' : undefined}>{c.name}</a>)}</nav>

@@ -1,0 +1,8 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { researchDirections } from '../data/institute';
+---
+<PageLayout title="研究方向" english="RESEARCH AREAS" description="围绕 RISC-V 与人工智能，布局从芯片、系统软件到智能体应用的三个研究方向。">
+  {researchDirections.map(d => <section class="direction" id={d.id} aria-labelledby={`title-${d.id}`}><span class="direction-number" aria-hidden="true">{d.number}</span><div><p class="eyebrow">{d.english}</p><h2 id={`title-${d.id}`}>{d.title}</h2><p class="lead">{d.lead}</p><p>{d.text}</p><ul class="topic-list">{d.topics.map(topic => <li>{topic}</li>)}</ul></div></section>)}
+  <p class="note">研究方向依据 2026 年 10 月院情介绍整理，建设计划随研究工作推进更新。</p>
+</PageLayout>

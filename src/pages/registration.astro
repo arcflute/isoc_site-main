@@ -1,0 +1,9 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { registration } from '../data/institute';
+---
+<PageLayout title="法人登记信息" english="REGISTRATION" description="民办非企业单位登记证书（法人）登记事项。">
+  <p class="note mb-7">以下信息按登记证书副本载明内容整理，发证日期为 2025 年 10 月 21 日。</p>
+  <dl class="registration-list">{registration.map(([label, value]) => <div class="registration-row"><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+  <p class="note mt-7">证书公示件将在院方核准后提供。</p>
+</PageLayout>

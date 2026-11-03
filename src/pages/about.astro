@@ -1,0 +1,16 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { institute } from '../data/institute';
+---
+<PageLayout title="走进 iSOC" english="ABOUT iSOC" description="以开源开放为抓手，连接芯片、系统与应用。">
+  <div class="content-grid">
+    <nav class="section-nav" aria-label="本页目录"><a href="#overview">研究院概况</a><a href="#purpose">宗旨与目标</a><a href="#ecosystem">协同创新</a><a href="#history">发展历程</a><a href="#contact">联系我们</a></nav>
+    <div class="prose">
+      <section id="overview"><h2>研究院概况</h2><p class="intro-lead">{institute.introduction}</p><p>{institute.scope}</p></section>
+      <section id="purpose"><h2>宗旨与目标</h2><p>{institute.purpose}</p><p class="accent-block">{institute.goal}</p></section>
+      <section id="ecosystem"><h2>协同创新</h2><p>{institute.ecosystem}</p><p><a class="text-link" href="/research/">了解三个研究方向 <span aria-hidden="true">→</span></a></p></section>
+      <section id="history"><h2>发展历程</h2><ol class="timeline">{institute.milestones.map(m => <li><time>{m.date}</time><p>{m.text}</p></li>)}</ol><p class="note mt-5">院情资料更新至 2026 年 10 月。</p></section>
+      <section id="contact"><h2>联系我们</h2><p>公开联络方式将在院方确认后更新。</p><p class="note">登记住所可在<a class="text-link" href="/registration/">法人登记信息</a>中查阅。</p></section>
+    </div>
+  </div>
+</PageLayout>
